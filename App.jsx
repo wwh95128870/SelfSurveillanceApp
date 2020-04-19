@@ -17,8 +17,8 @@ import {
 } from "./screens";
 
 const DrawerNavigator = createDrawerNavigator({
-  Setting,
   SendRequest,
+  Setting,
   ProfileScreen,
   MessageScreen,
   ActivityScreen,

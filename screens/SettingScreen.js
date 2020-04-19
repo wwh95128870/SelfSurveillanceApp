@@ -91,11 +91,6 @@ export default class SettingScreen extends React.Component{
                                 >
                                 Save
                                 </Button>
-                                <Button
-                                onPress={() => this.submitOnClick2()}
-                                >
-                                Save
-                                </Button>
                             </View>
                         </View>
 
@@ -118,14 +113,7 @@ export default class SettingScreen extends React.Component{
         AsyncStorage.setItem(VALUES.USER.ADDRESS,this.state.address);
         AsyncStorage.setItem(VALUES.USER.PHONE,this.state.phone);
         AsyncStorage.setItem(VALUES.USER.EMAIL,this.state.email);
-        AsyncStorage.setItem("k","v");
     }
-    submitOnClick2(){
-        AsyncStorage.getItem(VALUES.USER.EMAIL,(err,result) =>{
-                alert(result);
-        });
-    }
-
 }
 
 
@@ -143,7 +131,7 @@ const inPageStyles = StyleSheet.create({
         margin: 20
     },
     inputTitle:{
-        fontSize:24,
+        //fontSize:20,
         color:"#161924",
 
     },

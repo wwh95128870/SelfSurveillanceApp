@@ -9,6 +9,7 @@ export default class SentRequestScreen extends React.Component{
 
     state = {
         visible: false,
+        message:""
     };
 
     render(){
@@ -20,67 +21,35 @@ export default class SentRequestScreen extends React.Component{
                         onPress={this.props.navigation.openDrawer}
                     >
                         <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon}/></Text>
-                        <Text style={styles.appHeader}>SentRequestScreen</Text>
+                        <Text style={styles.appHeader}>Request</Text>
                         <Text style={styles.appHeader}></Text>
                     </TouchableOpacity>
                     <View style={styles.screen}>
-
                         <View style={inPageStyles.inputGroup}>
-
-                            <View style={inPageStyles.inputView}>
-                                <Input label="User Name"
-                                labelStyle = {inPageStyles.inputTitle}
-                                placeholder='Your Name Here'
-                                />
-                            </View>
-
                             <View style={inPageStyles.inputView}>
                                 <Input
-                                label="Phone No"
+                                label="Your Message"
                                 labelStyle = {inPageStyles.inputTitle}
-                                placeholder='Your Contact number'
-                                leftIcon={{ type: 'font-awesome', name: 'phone' }}
+                                placeholder='Your message here'
+                                onChangeText={text => this.setState({message:text})}
+                                value={this.state.message}
                                 />
                             </View>
-
-                            <View style={inPageStyles.inputView}>
+                            
+                            <View Style={inPageStyles.inputRow}>
                                 <Input
-                                label="Email Address"
-                                labelStyle = {inPageStyles.inputTitle}
-                                placeholder='Your Contact email'
-                                leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+                                    label = "GPS Location"
+                                    
                                 />
-                            </View>
-
-                            <View style={inPageStyles.inputView}>
-                                <Input
-                                label="Address"
-                                labelStyle = {inPageStyles.inputTitle}
-                                placeholder='Your Contact address'
-                                leftIcon={{ type: 'font-awesome', name: 'map-signs' }}
-                                />
-                            </View>
-
-                            <View style={inPageStyles.inputView}>
                                 <Button
-                                mode="outlined"
-                                onPress={() => this.submitOnClick()}
+                                    mode="outlined"
                                 >
-                                Save
+                                    Update GPS
                                 </Button>
-
                             </View>
                         </View>
-
                     </View>
                 </SafeAreaView>
-                <Snackbar
-                    visible={this.state.visible}
-                    onDismiss={() => this.setState({ visible: false })}
-                    duration={5000}
-                    >
-                    Information Saved
-                </Snackbar>
             </View>
         )
     }
@@ -106,14 +75,22 @@ const inPageStyles = StyleSheet.create({
         margin: 20
     },
     inputTitle:{
-        fontSize:24,
+        // fontSize:24,
         color:"#161924",
-
     },
     submitButton:{
         flex:1,
         width:"90%",
         maxWidth: 600,
+    },
+    inputRow:{
+        flexDirection:"row",
+    },
+    rowInput:{
+        flex:1,
+    },
+    rowButton:{
+        flex:1,
     }
 })
 
