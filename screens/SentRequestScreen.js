@@ -4,13 +4,35 @@ import {FontAwesome5} from '@expo/vector-icons'
 import {styles} from './AppStyle'
 import { Input } from 'react-native-elements';
 import {  Button,Snackbar } from 'react-native-paper';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default class SentRequestScreen extends React.Component{
 
     state = {
-        visible: false,
-        message:""
+        message:"",
+        errorMessage:"",
+        location:{}
     };
+
+    componentWillMount(){
+        this._getLocation();
+    }
+
+    _getLocation = async()=>{
+        const {status} = await Permissions.askAsync(Permissions.LOCATION);
+
+        if(status !== "granted"){
+            console.log("Permission not granted");
+            this.setState({errorMessage:"Permission not granted"})
+        }
+
+        const userLocation = await Location.getCurrentPositionAsync();
+        this.setState({
+            location : userLocation
+        })
+    }
+
 
     render(){
         return(
@@ -36,22 +58,12 @@ export default class SentRequestScreen extends React.Component{
                                 />
                             </View>
                             <View style={styles.inputView}>
-                                <View style={styles.rowGroupView}>
-                                    <View style={{ flex:2, }} >
-                                        <Input
-                                            label = "GPS Location"
-                                            labelStyle = {styles.inputTitle}
-                                            disabled = "true"
-                                        />
-                                    </View>
-                                    <View style={{ flex:1}} >
-                                        <Button
-                                            mode="outlined"
-                                        >
-                                            Update GPS
-                                        </Button>
-                                    </View>
-                                </View>
+                                <Input
+                                    label = "GPS Location"
+                                    labelStyle = {styles.inputTitle}
+                                    selectTextOnFocus={false}
+                                    value = {this.displayGPSLocation()}
+                                />
                             </View>
                         </View>
                     </View>
@@ -60,8 +72,21 @@ export default class SentRequestScreen extends React.Component{
         )
     }
 
+    displayGPSLocation(){
+
+        var text = JSON.stringify(this.state.location.coords);
+        try{
+            var coordsObj = JSON.parse(text);
+            text = coordsObj.latitude + ":" + coordsObj.longitude;
+        }catch{
+
+        }
+        return text
+    }
+
     submitOnClick(){
         this.setState(state => ({ visible: !state.visible }));
+        alert();
     }
 
 }
