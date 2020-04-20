@@ -15,8 +15,9 @@ export default class SentRequestScreen extends React.Component{
         location:{}
     };
 
-    componentWillMount(){
+    componentDidMount(){
         this._getLocation();
+        
     }
 
     _getLocation = async()=>{
@@ -25,12 +26,14 @@ export default class SentRequestScreen extends React.Component{
         if(status !== "granted"){
             console.log("Permission not granted");
             this.setState({errorMessage:"Permission not granted"})
+            alert(this.setState.errorMessage);
         }
 
         const userLocation = await Location.getCurrentPositionAsync();
         this.setState({
             location : userLocation
         })
+        console.log("GPS updated");
     }
 
 
@@ -64,6 +67,14 @@ export default class SentRequestScreen extends React.Component{
                                     selectTextOnFocus={false}
                                     value = {this.displayGPSLocation()}
                                 />
+                            </View>
+                            <View>
+                                <Button
+                                    mode="outlined"
+                                    onPress={() => this._getLocation()}
+                                >
+                                    Update GPS
+                                </Button>
                             </View>
                         </View>
                     </View>
