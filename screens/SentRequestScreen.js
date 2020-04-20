@@ -25,27 +25,33 @@ export default class SentRequestScreen extends React.Component{
                         <Text style={styles.appHeader}></Text>
                     </TouchableOpacity>
                     <View style={styles.screen}>
-                        <View style={inPageStyles.inputGroup}>
-                            <View style={inPageStyles.inputView}>
+                        <View style={styles.inputGroup}>
+                            <View style={styles.inputView}>
                                 <Input
                                 label="Your Message"
-                                labelStyle = {inPageStyles.inputTitle}
+                                labelStyle = {styles.inputTitle}
                                 placeholder='Your message here'
                                 onChangeText={text => this.setState({message:text})}
                                 value={this.state.message}
                                 />
                             </View>
-                            
-                            <View Style={inPageStyles.inputRow}>
-                                <Input
-                                    label = "GPS Location"
-                                    
-                                />
-                                <Button
-                                    mode="outlined"
-                                >
-                                    Update GPS
-                                </Button>
+                            <View style={styles.inputView}>
+                                <View style={styles.rowGroupView}>
+                                    <View style={{ flex:2, }} >
+                                        <Input
+                                            label = "GPS Location"
+                                            labelStyle = {styles.inputTitle}
+                                            disabled = "true"
+                                        />
+                                    </View>
+                                    <View style={{ flex:1}} >
+                                        <Button
+                                            mode="outlined"
+                                        >
+                                            Update GPS
+                                        </Button>
+                                    </View>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -62,35 +68,6 @@ export default class SentRequestScreen extends React.Component{
 
 
 const inPageStyles = StyleSheet.create({
-    inputGroup:{
-        height:"100%",
-        width:"90%",
-        maxWidth: 600,
-        alignItems:"center",
-        justifyContent:"flex-start",
-        flexDirection:"column",
-    },
-    inputView:{
-        width:"100%",
-        margin: 20
-    },
-    inputTitle:{
-        // fontSize:24,
-        color:"#161924",
-    },
-    submitButton:{
-        flex:1,
-        width:"90%",
-        maxWidth: 600,
-    },
-    inputRow:{
-        flexDirection:"row",
-    },
-    rowInput:{
-        flex:1,
-    },
-    rowButton:{
-        flex:1,
-    }
+
 })
 

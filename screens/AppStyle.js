@@ -34,5 +34,33 @@ export const styles = StyleSheet.create({
         color: "#161924",
         flex:1,
         textAlign: 'left',
+    },
+    rowGroupView:{
+        flex: 1, 
+        width:"100%", 
+        flexDirection: 'row',
+        justifyContent:"center",
+        alignItems:"center" 
+    },
+    inputGroup:{
+        height:"100%",
+        width:"90%",
+        maxWidth: 600,
+        alignItems:"center",
+        justifyContent:"flex-start",
+        flexDirection:"column",
+    },
+    inputView:{
+        width:"100%",
+        margin: 20
+    },
+    inputTitle:{
+        // fontSize:24,
+        color:"#161924",
+    },
+    submitButton:{
+        flex:1,
+        width:"90%",
+        maxWidth: 600,
     }
 })
