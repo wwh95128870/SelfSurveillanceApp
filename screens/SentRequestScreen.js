@@ -6,13 +6,15 @@ import { Input } from 'react-native-elements';
 import {  Button,Snackbar } from 'react-native-paper';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
 export default class SentRequestScreen extends React.Component{
 
     state = {
         message:"",
         errorMessage:"",
-        location:{}
+        location:{},
+        image: null,
     };
 
     componentDidMount(){
@@ -38,6 +40,8 @@ export default class SentRequestScreen extends React.Component{
 
 
     render(){
+        let { image } = this.state;
+
         return(
             <View style={styles.container}>
                 <SafeAreaView style={{flex:1}}>
@@ -75,6 +79,10 @@ export default class SentRequestScreen extends React.Component{
                                 >
                                     Update GPS
                                 </Button>
+                            </View>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <Button title="Pick an image from camera roll" onPress={this._pickImage} />
+                                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                             </View>
                         </View>
                     </View>
