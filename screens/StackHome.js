@@ -10,9 +10,12 @@ import TestStackScreen from './TestStackScreen'
 export default class StackHome extends React.Component{
 
     state = {
-
+        payload:"default"
     };
 
+    onSelect = data => {
+        this.setState(data);
+    };
 
     render(){
         return(
@@ -27,11 +30,12 @@ export default class StackHome extends React.Component{
                         <Text style={styles.appHeader}> </Text>
                     </TouchableOpacity>
                 <View style={styles.screen}>
-                <Text>hi</Text>
+                <Text>{this.state.payload}</Text>
                 <Button
                     onPress={
                         () => this.props.navigation.navigate('TestStackScreen',{
-                            payload:"{'key':'value'}"
+                            payload:"{'key':'value'}",
+                            callBack : this.onSelect
                         })
                     }
                 >
