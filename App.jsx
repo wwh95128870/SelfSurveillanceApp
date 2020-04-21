@@ -20,11 +20,12 @@ import {
 
 import TestStackScreen from './screens/TestStackScreen'
 import StackHome from './screens/StackHome'
+import CallCameraScreen from './screens/CallCameraScreen'
+import CameraScreen from './screens/CameraScreen'
 
 
 
-
-const RootStack = createStackNavigator({
+const TestStack = createStackNavigator({
   Home: StackHome,
   TestStackScreen: TestStackScreen
 },{
@@ -33,11 +34,20 @@ const RootStack = createStackNavigator({
   }
 })
 
+const TestCameraStack = createStackNavigator({
+  Home: CallCameraScreen,
+  CameraScreen: CameraScreen
+},{
+  defaultNavigationOptions: {
+    header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+  }
+})
 
 
 
 const DrawerNavigator = createDrawerNavigator({
-  RootStack,
+  TestCameraStack,
+  TestStack,
   SendRequest,
   Setting,
   ProfileScreen,
