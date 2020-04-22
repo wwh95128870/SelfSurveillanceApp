@@ -42,6 +42,11 @@ export const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center" 
     },
+    rowSpaceAround:{
+        width:"100%", 
+        flexDirection: 'row',
+        justifyContent:"space-around",
+    },
     inputGroup:{
         height:"100%",
         width:"90%",

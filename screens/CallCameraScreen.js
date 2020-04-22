@@ -46,7 +46,6 @@ export default class CallCameraScreen extends React.Component{
     }
 
     myFunction(){
-        alert();
         this.props.navigation.navigate("CameraScreen",{});
     }
 

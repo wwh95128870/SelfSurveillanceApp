@@ -30,7 +30,7 @@ const TestStack = createStackNavigator({
   TestStackScreen: TestStackScreen
 },{
   defaultNavigationOptions: {
-    //header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+    //headerShown:false,
   }
 })
 
@@ -39,7 +39,7 @@ const TestCameraStack = createStackNavigator({
   CameraScreen: CameraScreen
 },{
   defaultNavigationOptions: {
-    header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+    headerShown:false,
   }
 })
 
