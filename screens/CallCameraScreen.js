@@ -12,8 +12,23 @@ export default class CallCameraScreen extends React.Component{
 
     state = {
         payload:"default",
-        photo:null
+        photo:null,
+        photoUri:null,
+        dataObj:null
     };
+
+    componentDidMount(){
+        const dataObj = {
+            payload:{
+                firstParam: 'yourValue',
+                secondParam: 'yourOtherValue',
+            }
+
+        };
+
+        this.setState({dataObj:dataObj})
+
+    }
 
     render(){
         return(
@@ -29,14 +44,9 @@ export default class CallCameraScreen extends React.Component{
                     </TouchableOpacity>
                 <View style={styles.screen}>
                 <Text>CallCameraScreen</Text>
-                <Text>{JSON.stringify(this.state.photo.url)}</Text>
-                <Button
-                    onPress={
-                        () => this.myFunction()
-                    }
-                >
-                    Take Picture
-                </Button>
+                <Text>{JSON.stringify(this.state.photoUri)}</Text>
+                <Button onPress={() => this.onClickCameraButton()}>Take Picture</Button>
+                <Button onPress={() => this.onClickSendPictureButton()}>Send Picture</Button>
                 </View>
                 </SafeAreaView>
             </View>
@@ -47,13 +57,39 @@ export default class CallCameraScreen extends React.Component{
         this.setState(data);
     };
 
-    myFunction(){
+    onClickCameraButton(){
         this.props.navigation.navigate("CameraScreen",{
             payload:"{'key':'value'}",
             callBack : this.onCallBack
         });
     }
+    
+    onClickSendPictureButton(){
+        alert("");
+        fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: this.state.dataObj ,
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState(
+            {
 
+            },
+            function() {
+                alert(JSON.stringify(this.state.dataObj))
+                alert(JSON.stringify(responseJson))
+            }
+          );
+        })
+        .catch(error => {
+          console.error(error);
+        });;
+    }
 }
 
 

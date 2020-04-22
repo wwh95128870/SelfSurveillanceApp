@@ -71,6 +71,7 @@ export default class CameraScreen extends React.Component{
             const { navigation } = this.props;
             navigation.goBack();
             navigation.state.params.callBack({ photo: photo });
+            navigation.state.params.callBack({ photoUri: photo.uri });
             }
     }
 
