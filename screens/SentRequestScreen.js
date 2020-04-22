@@ -14,7 +14,8 @@ export default class SentRequestScreen extends React.Component{
         message:"",
         errorMessage:"",
         location:{},
-        image: null,
+        photo:null,
+        photoUri:null,
     };
 
     componentDidMount(){
@@ -80,6 +81,16 @@ export default class SentRequestScreen extends React.Component{
                                     Update GPS
                                 </Button>
                             </View>
+
+                            <View style={styles.inputView}>
+                                <Button
+                                    mode="outlined"
+                                    onPress={() => this.onClickCameraButton()}
+                                >
+                                    Upload Photo
+                                </Button>
+                            </View>
+
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                 <Button title="Pick an image from camera roll" onPress={this._pickImage} />
                                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
@@ -91,6 +102,11 @@ export default class SentRequestScreen extends React.Component{
         )
     }
 
+    onCallBack = data => {
+        this.setState(data);
+        console.log(JSON.stringify(data));
+    };
+
     displayGPSLocation(){
 
         var text = JSON.stringify(this.state.location.coords);
@@ -101,6 +117,13 @@ export default class SentRequestScreen extends React.Component{
 
         }
         return text
+    }
+
+    onClickCameraButton(){
+        this.props.navigation.navigate("CameraScreen",{
+            payload:"{'key':'value'}",
+            callBack : this.onCallBack
+        });
     }
 
     submitOnClick(){

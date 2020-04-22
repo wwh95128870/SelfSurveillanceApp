@@ -43,12 +43,21 @@ const TestCameraStack = createStackNavigator({
   }
 })
 
+const SendRequestStack = createStackNavigator({
+  Home: SendRequest,
+  CameraScreen: CameraScreen
+},{
+  defaultNavigationOptions: {
+    headerShown:false,
+  }
+})
+
 
 
 const DrawerNavigator = createDrawerNavigator({
+  SendRequestStack,
   TestCameraStack,
   TestStack,
-  SendRequest,
   Setting,
   ProfileScreen,
   MessageScreen,

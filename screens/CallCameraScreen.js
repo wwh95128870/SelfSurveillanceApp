@@ -14,19 +14,9 @@ export default class CallCameraScreen extends React.Component{
         payload:"default",
         photo:null,
         photoUri:null,
-        dataObj:null
     };
 
     componentDidMount(){
-        const dataObj = {
-            payload:{
-                firstParam: 'yourValue',
-                secondParam: 'yourOtherValue',
-            }
-
-        };
-
-        this.setState({dataObj:dataObj})
 
     }
 
@@ -69,10 +59,10 @@ export default class CallCameraScreen extends React.Component{
         fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                Accept: 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: this.state.dataObj ,
+            body: JSON.stringify(this.state.photoUri) ,
         })
         .then(response => response.json())
         .then(responseJson => {
@@ -82,7 +72,7 @@ export default class CallCameraScreen extends React.Component{
             },
             function() {
                 alert(JSON.stringify(this.state.dataObj))
-                alert(JSON.stringify(responseJson))
+                console.log(JSON.stringify(responseJson))
             }
           );
         })
