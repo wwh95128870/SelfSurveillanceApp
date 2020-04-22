@@ -12,6 +12,8 @@ export default class CameraScreen extends React.Component{
     state = {
         hasPermission: null,
         cameraType: Camera.Constants.Type.back,
+        photo:null,
+        camera:null
     };
 
     async componentDidMount() {
@@ -28,16 +30,20 @@ export default class CameraScreen extends React.Component{
         }else{
             return(
                 <View style={styles.container}>
-                    <Camera style={inPageStyles.cameraView} type={this.state.cameraType}>
+                    <Camera style={inPageStyles.cameraView} type={this.state.cameraType}  
+                    ref={ref => {this.camera = ref;}}
+                    op
+                    >
                         <View style={styles.rowSpaceAround}>
                         <Button 
+                            disabled={true}
                             onPress={() => this.myFunction()}
                         >
-                            <Ionicons name="ios-photos" style={inPageStyles.photoIcon} />
+                            {/* <Ionicons name="ios-photos" style={inPageStyles.photoIcon} /> */}
                         </Button>
                         
                         <Button 
-                            onPress={() => this.myFunction()}
+                            onPress={() => this.takePicture()}
                         >
                             <FontAwesome name="camera" style={inPageStyles.photoIcon} />
                         </Button>
@@ -55,7 +61,17 @@ export default class CameraScreen extends React.Component{
     }
 
     myFunction(){
+
         this.props.navigation.goBack();
+    }
+
+    takePicture = async() =>{
+        if (this.camera) {
+            let photo = await this.camera.takePictureAsync({base64:true});
+            const { navigation } = this.props;
+            navigation.goBack();
+            navigation.state.params.callBack({ photo: photo });
+            }
     }
 
     handleCameraType(){

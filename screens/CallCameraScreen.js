@@ -11,11 +11,8 @@ import {CameraScreen} from "./CameraScreen"
 export default class CallCameraScreen extends React.Component{
 
     state = {
-        payload:"default"
-    };
-
-    onSelect = data => {
-        this.setState(data);
+        payload:"default",
+        photo:null
     };
 
     render(){
@@ -32,6 +29,7 @@ export default class CallCameraScreen extends React.Component{
                     </TouchableOpacity>
                 <View style={styles.screen}>
                 <Text>CallCameraScreen</Text>
+                <Text>{JSON.stringify(this.state.photo.url)}</Text>
                 <Button
                     onPress={
                         () => this.myFunction()
@@ -45,8 +43,15 @@ export default class CallCameraScreen extends React.Component{
         )
     }
 
+    onCallBack = data => {
+        this.setState(data);
+    };
+
     myFunction(){
-        this.props.navigation.navigate("CameraScreen",{});
+        this.props.navigation.navigate("CameraScreen",{
+            payload:"{'key':'value'}",
+            callBack : this.onCallBack
+        });
     }
 
 }
