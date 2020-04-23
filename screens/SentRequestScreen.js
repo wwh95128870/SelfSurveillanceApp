@@ -3,7 +3,7 @@ import {View,Text,StyleSheet,SafeAreaView, TouchableOpacity} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import {styles} from './AppStyle'
 import { Input } from 'react-native-elements';
-import {  Button,Snackbar } from 'react-native-paper';
+import {  Button,Snackbar,Checkbox  } from 'react-native-paper';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,6 +16,7 @@ export default class SentRequestScreen extends React.Component{
         location:{},
         photo:null,
         photoUri:null,
+        symptoms_cough:false,
     };
 
     componentDidMount(){
@@ -91,15 +92,32 @@ export default class SentRequestScreen extends React.Component{
                                 </Button>
                             </View>
 
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <Button title="Pick an image from camera roll" onPress={this._pickImage} />
-                                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                            {/* symptoms form */}
+
+                            <Text style={{fontSize:20,marginTop:15,marginLeft:10,fontWeight:"bold",alignSelf:"flex-start"}}>Symptoms</Text>
+
+                            <View style={styles.inputView}>
+                                <View style={styles.rowSpaceBetween}>
+                                <Text style={styles.text}>Cough</Text>
+                                <Checkbox
+                                    status={this.state.symptoms_cough ? 'checked' : 'unchecked'}
+                                    onPress={() => { this.setState({ symptoms_cough: !this.state.symptoms_cough }); }}
+                                />
+                                </View>
                             </View>
+
+
+                            <Button onPress={()=>{this.printState()}}>show state</Button>
                         </View>
                     </View>
                 </SafeAreaView>
             </View>
         )
+    }
+
+    printState(){
+        console.log(JSON.stringify(this.state));
+        alert(JSON.stringify(this.state));
     }
 
     onCallBack = data => {

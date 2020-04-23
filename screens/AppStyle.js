@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     },
     text:{
         color:"#161924",
-        fontSize:20,
+        fontSize:18,
         fontWeight:"500"
     },
     screen:{
@@ -46,6 +46,13 @@ export const styles = StyleSheet.create({
         width:"100%", 
         flexDirection: 'row',
         justifyContent:"space-around",
+    },
+    rowSpaceBetween:{
+        marginLeft:10,
+        marginRight:10,
+        width:"100%", 
+        flexDirection: 'row',
+        justifyContent:"space-between",
     },
     inputGroup:{
         height:"100%",
