@@ -1,9 +1,11 @@
 import React from 'react';
-import {View,Text,StyleSheet,SafeAreaView, TouchableOpacity} from 'react-native'
+import {AsyncStorage,View,Text,StyleSheet,SafeAreaView, TouchableOpacity} from 'react-native'
 import {FontAwesome5} from '@expo/vector-icons'
 import {styles} from './AppStyle'
+import {VALUES} from "../Value"
 import { Input } from 'react-native-elements';
 import {  Button,Snackbar,Checkbox  } from 'react-native-paper';
+
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,16 +14,33 @@ export default class SentRequestScreen extends React.Component{
 
     state = {
         message:"",
-        errorMessage:"",
         location:{},
         photo:null,
         photoUri:null,
-        symptoms_cough:false,
+        symptoms_Cough:false,
+        symptoms_CifficultyBreathing:false,
+        symptoms_MuscleWeakness: false,
+        symptoms_Fever:false,
+        user_Name:null,
+        user_Phone:null,
+        user_Email:null,
+        user_Address:null,
     };
+
+    constructor(props) {
+        super(props);
+        this.init();
+    }
+
+    init(){
+        AsyncStorage.getItem(VALUES.USER.EMAIL,(err,result) =>{this.setState({user_Email:result})});
+        AsyncStorage.getItem(VALUES.USER.NAME,(err,result) =>{this.setState({user_Name:result})});
+        AsyncStorage.getItem(VALUES.USER.ADDRESS,(err,result) =>{this.setState({user_Address:result})});
+        AsyncStorage.getItem(VALUES.USER.PHONE,(err,result) =>{this.setState({user_Phone:result})});
+    }
 
     componentDidMount(){
         this._getLocation();
-        
     }
 
     _getLocation = async()=>{
@@ -100,19 +119,73 @@ export default class SentRequestScreen extends React.Component{
                                 <View style={styles.rowSpaceBetween}>
                                 <Text style={styles.text}>Cough</Text>
                                 <Checkbox
-                                    status={this.state.symptoms_cough ? 'checked' : 'unchecked'}
-                                    onPress={() => { this.setState({ symptoms_cough: !this.state.symptoms_cough }); }}
+                                    status={this.state.symptoms_Cough ? 'checked' : 'unchecked'}
+                                    onPress={() => { this.setState({ symptoms_Cough: !this.state.symptoms_Cough }); }}
+                                />
+                                </View>
+
+                                <View style={styles.rowSpaceBetween}>
+                                <Text style={styles.text}>Difficulty breathing</Text>
+                                <Checkbox
+                                    status={this.state.symptoms_CifficultyBreathing ? 'checked' : 'unchecked'}
+                                    onPress={() => { this.setState({ symptoms_CifficultyBreathing: !this.state.symptoms_CifficultyBreathing }); }}
+                                />
+                                </View>
+ 
+                                <View style={styles.rowSpaceBetween}>
+                                <Text style={styles.text}>Muscle weakness</Text>
+                                <Checkbox
+                                    status={this.state.symptoms_MuscleWeakness ? 'checked' : 'unchecked'}
+                                    onPress={() => { this.setState({ symptoms_MuscleWeakness: !this.state.symptoms_MuscleWeakness }); }}
+                                />
+                                </View>
+
+                                <View style={styles.rowSpaceBetween}>
+                                <Text style={styles.text}>Fever</Text>
+                                <Checkbox
+                                    status={this.state.symptoms_Fever ? 'checked' : 'unchecked'}
+                                    onPress={() => { this.setState({ symptoms_Fever: !this.state.symptoms_Fever }); }}
                                 />
                                 </View>
                             </View>
 
 
-                            <Button onPress={()=>{this.printState()}}>show state</Button>
+
+                            <Button onPress={()=>{this.sendRequest()}}>Send</Button>
+
+                            {/* <Button onPress={()=>{this.printState()}}>show state</Button> */}
                         </View>
                     </View>
                 </SafeAreaView>
             </View>
         )
+    }
+
+    sendRequest(){
+        console.log(JSON.stringify(this.state));
+        fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(this.state) ,
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState(
+            {
+
+            },
+            function() {
+                console.log(responseJson);
+                alert("Success");
+            }
+          );
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     printState(){

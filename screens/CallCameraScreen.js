@@ -34,7 +34,7 @@ export default class CallCameraScreen extends React.Component{
                     </TouchableOpacity>
                 <View style={styles.screen}>
                 <Text>CallCameraScreen</Text>
-                <Text>{JSON.stringify(this.state.photoUri)}</Text>
+                <Text>{JSON.stringify(this.state.photo)}</Text>
                 <Button onPress={() => this.onClickCameraButton()}>Take Picture</Button>
                 <Button onPress={() => this.onClickSendPictureButton()}>Send Picture</Button>
                 </View>
@@ -56,30 +56,41 @@ export default class CallCameraScreen extends React.Component{
     
     onClickSendPictureButton(){
         alert("");
-        fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
+        fetch('https://awari.algebragame.app/IBM/uploadImage/', {
             method: 'POST',
-            headers: {
-                Accept: 'application/x-www-form-urlencoded',
-                'Content-Type': 'application/x-www-form-urlencoded',
+            headers:{
+                "Content-Type": "multipart/form-data",
             },
-            body: JSON.stringify(this.state.photoUri) ,
+            body: this.createFormData(this.state.photo)
         })
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState(
-            {
-
-            },
-            function() {
-                alert(JSON.stringify(this.state.dataObj))
-                console.log(JSON.stringify(responseJson))
-            }
-          );
+        .then((res) => {
+            alert(JSON.stringify(res));
+            console.log(JSON.stringify(res));
         })
         .catch(error => {
           console.error(error);
-        });;
+        })
+        .done();
     }
+
+
+    createFormData = (photo, body) => {
+        alert("FormData");
+        const data = new FormData();
+        console.log(JSON.stringify(this.state.photo));
+        data.append("photo", {
+          name: "testPhoto.jpg",
+          type: 'image/jpg',
+          uri:
+            Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+        });
+      
+        // Object.keys(body).forEach(key => {
+        //   data.append(key, body[key]);
+        // });
+      
+        return data;
+      };
 }
 
 
