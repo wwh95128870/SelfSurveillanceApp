@@ -36,7 +36,7 @@ export default class CallCameraScreen extends React.Component{
                 <Text>CallCameraScreen</Text>
                 <Text>{JSON.stringify(this.state.photo)}</Text>
                 <Button onPress={() => this.onClickCameraButton()}>Take Picture</Button>
-                <Button onPress={() => this.onClickSendPictureButton()}>Send Picture</Button>
+                <Button onPress={() => alert(this.takePhotoAndUpload())}>Send Picture</Button>
                 </View>
                 </SafeAreaView>
             </View>
@@ -56,7 +56,7 @@ export default class CallCameraScreen extends React.Component{
     
     onClickSendPictureButton(){
         alert("");
-        fetch('https://awari.algebragame.app/IBM/uploadImage/', {
+        fetch('https://awari.algebragame.app/IBM/uploadImage/upload.php', {
             method: 'POST',
             headers:{
                 "Content-Type": "multipart/form-data",
@@ -73,6 +73,29 @@ export default class CallCameraScreen extends React.Component{
         .done();
     }
 
+    async takePhotoAndUpload() {
+
+        let localUri = this.state.photo.uri;
+        let filename = localUri.split('/').pop();
+      
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+      
+        let formData = new FormData();
+        formData.append('photo', { uri: localUri, name: filename, type });
+      
+        await fetch('https://awari.algebragame.app/IBM/uploadImage/upload.php', {
+          method: 'POST',
+          body: formData,
+          header: {
+            'content-type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+            alert(JSON.stringify(res));
+            console.log(JSON.stringify(res));
+        })
+      }
 
     createFormData = (photo, body) => {
         alert("FormData");
@@ -82,7 +105,8 @@ export default class CallCameraScreen extends React.Component{
           name: "testPhoto.jpg",
           type: 'image/jpg',
           uri:
-            Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+            photo.uri
+            // Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
         });
       
         // Object.keys(body).forEach(key => {
