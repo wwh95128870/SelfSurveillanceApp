@@ -68,10 +68,12 @@ export default class CameraScreen extends React.Component{
     takePicture = async() =>{
         if (this.camera) {
             let photo = await this.camera.takePictureAsync({
-                // base64:true
-            });
+                quality: 1,
+                base64: true,
+            })
             const { navigation } = this.props;
             navigation.goBack();
+            alert(photo.uri);
             navigation.state.params.callBack({ photo: photo });
             navigation.state.params.callBack({ photoUri: photo.uri });
             }

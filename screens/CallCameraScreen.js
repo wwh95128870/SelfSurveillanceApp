@@ -1,9 +1,10 @@
 import React from 'react';
-import {View,Text,SafeAreaView,TouchableOpacity} from 'react-native'
+import {View,Text,SafeAreaView,TouchableOpacity, Alert} from 'react-native'
 import {styles} from './AppStyle'
 import {FontAwesome5} from '@expo/vector-icons'
-import {  Button } from 'react-native-paper';
+import {  Button } from 'react-native-paper'
 import {CameraScreen} from "./CameraScreen"
+
 
 
 
@@ -34,7 +35,7 @@ export default class CallCameraScreen extends React.Component{
                     </TouchableOpacity>
                 <View style={styles.screen}>
                 <Text>CallCameraScreen</Text>
-                <Text>{JSON.stringify(this.state.photo)}</Text>
+                <Text>{JSON.stringify(this.state.photoUri)}</Text>
                 <Button onPress={() => this.onClickCameraButton()}>Take Picture</Button>
                 <Button onPress={() => alert(this.takePhotoAndUpload())}>Send Picture</Button>
                 </View>
@@ -73,48 +74,72 @@ export default class CallCameraScreen extends React.Component{
         .done();
     }
 
-    async takePhotoAndUpload() {
 
-        let localUri = this.state.photo.uri;
-        let filename = localUri.split('/').pop();
-      
-        let match = /\.(\w+)$/.exec(filename);
-        let type = match ? `image/${match[1]}` : `image`;
-      
-        let formData = new FormData();
-        formData.append('photo', { uri: localUri, name: filename, type });
-      
-        await fetch('https://awari.algebragame.app/IBM/uploadImage/upload.php', {
-          method: 'POST',
-          body: formData,
-          header: {
-            'content-type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-            alert(JSON.stringify(res));
-            console.log(JSON.stringify(res));
-        })
-      }
 
-    createFormData = (photo, body) => {
-        alert("FormData");
-        const data = new FormData();
-        console.log(JSON.stringify(this.state.photo));
-        data.append("photo", {
-          name: "testPhoto.jpg",
-          type: 'image/jpg',
-          uri:
-            photo.uri
-            // Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
-        });
+      uploadImageAsync(pictureuri) {
+        let apiUrl = 'http://192.168.0.100:8080/api/upload.php';
       
-        // Object.keys(body).forEach(key => {
-        //   data.append(key, body[key]);
-        // });
       
-        return data;
+      
+          var data = new FormData();  
+          data.append('photo', {  
+            uri: pictureuri,
+            name: 'file.jpg',
+            type: 'image/jpg'
+          })
+      
+          fetch(apiUrl, {  
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'multipart/form-data'
+            },
+            method: 'POST',
+            body: data
+          }).then(
+            response => {
+              console.log('succ ')
+              console.log(response)
+            }
+            ).catch(err => {
+            console.log('err ')
+            console.log(err)
+          } )
+      
+      
+      
+      
+        }
+      
+      
+
+      _takePhoto = async () => {
+        const {
+          status: cameraPerm
+        } = await Permissions.askAsync(Permissions.CAMERA);
+    
+        const {
+          status: cameraRollPerm
+        } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    
+        // only if user allows permission to camera AND camera roll
+        if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+          let pickerResult = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+          });
+    
+          if (!pickerResult.cancelled) {
+            this.setState({ image: pickerResult.uri });
+          }
+    
+          this.uploadImageAsync(pickerResult.uri);
+        }
       };
+
+
+
+
+
 }
 
 
