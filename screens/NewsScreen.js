@@ -4,6 +4,7 @@ import { styles } from './AppStyle'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet } from 'react-native'
+import * as WebBrowser from 'expo-web-browser';
 
 
 export default class NewsScreen extends React.Component {
@@ -32,8 +33,8 @@ export default class NewsScreen extends React.Component {
         if (this.state.newsArray != null) {
             newArray = this.state.newsArray.map((item, key) => {
                 return (
-                    <Card key={key} style={inpageStyles.card} elevation={5} onPress={()=>{
-                        alert(item.url);
+                    <Card key={key} style={inpageStyles.card} elevation={5} onPress={() => {
+                        WebBrowser.openBrowserAsync(item.url).catch();
                     }}>
                         <Card.Cover source={{ uri: item.img }} />
                         <Card.Content>
@@ -51,28 +52,29 @@ export default class NewsScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <SafeAreaView style={{ flex: 1 }}>
-                    <ScrollView >
-                        <TouchableOpacity
-                            style={styles.menuBar}
-                            onPress={this.props.navigation.openDrawer}
-                        >
-                            <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon} /></Text>
-                            <Text style={styles.appHeader}> </Text>
-                            <Text style={styles.appHeader}> </Text>
-                        </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.menuBar}
+                        onPress={this.props.navigation.openDrawer}
+                    >
+                        <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon} /></Text>
+                        <Text style={styles.appHeader}> </Text>
+                        <Text style={styles.appHeader}> </Text>
+                    </TouchableOpacity>
+                    <ScrollView style={inpageStyles.ScrollView}>
                         <View style={styles.screen}>
 
-                            <Card style={inpageStyles.card} elevation={5}>
+                            {/* <Card style={inpageStyles.card} elevation={5}>
                                 <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
                                 <Card.Content>
                                     <Title>Card title</Title>
                                     <Paragraph>Card content</Paragraph>
                                 </Card.Content>
-                                {/* <Card.Actions>
+                                <Card.Actions>
                                 <Button>Cancel</Button>
                                 <Button>Ok</Button>
-                            </Card.Actions> */}
-                            </Card>
+                            </Card.Actions>
+                            </Card> */}
 
                             {
                                 newArray
@@ -87,37 +89,10 @@ export default class NewsScreen extends React.Component {
         )
     }
 
-    myFunction() {
-        alert();
-    }
-
-    cards() {
-        var id = 0;
-        for (let cardinfo of this.state.newsArray) {
-            console.log(id + ":" + JSON.stringify(cardinfo));
-            this.generateCard(cardinfo);
-        }
-    }
-
-    generateCard(cardinfo) {
-        return (
-            <Card style={inpageStyles.card} elevation={5}>
-                <Card.Cover source={{ uri: "https://picsum.photos/700" }} />
-                <Card.Content>
-                    <Title>cardinfo.title</Title>
-                    <Paragraph>cardinfo.content</Paragraph>
-                </Card.Content>
-                {/* <Card.Actions>
-                <Button>Cancel</Button>
-                <Button>Ok</Button>
-            </Card.Actions> */}
-            </Card>
-        )
-    }
 
 
     _fetchNews() {
-        fetch('http://192.168.0.100:8080/api/news.json', {
+        fetch('https://awari.algebragame.app/IBM/DashBoard/news/news.json', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -128,7 +103,6 @@ export default class NewsScreen extends React.Component {
             .then(response => response.json())
             .then(res => {
                 this.setState({ newsArray: res })
-                alert(JSON.stringify(this.state.newsArray));
                 console.log(JSON.stringify(res));
 
             })
@@ -144,11 +118,15 @@ const inpageStyles = StyleSheet.create({
     card: {
         width: "90%",
         maxWidth: 600,
-        marginTop: 20
+        marginTop: 5,
+        marginBottom:20
     },
     Cover: {
         alignContent: "center",
         alignItems: "center",
 
+    },
+    ScrollView: {
+        paddingBottom: 40,
     }
 });
