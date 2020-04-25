@@ -16,11 +16,10 @@ export default class NewsScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.init();
     }
 
-    init() {
-        this._fetchNews()
+    componentDidMount(){
+        this._fetchNews();
     }
 
     onSelect = data => {
@@ -62,8 +61,9 @@ export default class NewsScreen extends React.Component {
                         <Text style={styles.appHeader}> </Text>
                     </TouchableOpacity>
                     <ScrollView style={inpageStyles.ScrollView}>
-                        <View style={styles.screen}>
 
+                        <View style={styles.screen}>
+                        <Title style={styles.title}>News</Title>
                             {/* <Card style={inpageStyles.card} elevation={5}>
                                 <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
                                 <Card.Content>
@@ -81,7 +81,7 @@ export default class NewsScreen extends React.Component {
                             }
                         </View>
 
-
+                        <Button onPress={()=>{this.render()}}>Refresh</Button>
 
                     </ScrollView>
                 </SafeAreaView>
@@ -92,7 +92,9 @@ export default class NewsScreen extends React.Component {
 
 
     _fetchNews() {
-        fetch('https://awari.algebragame.app/IBM/DashBoard/news/news.json', {
+        //http://192.168.0.100:8080/api/news.json
+        //http://awari.algebragame.app/IBM/DashBoard/news/news.json
+        fetch('http://awari.algebragame.app/IBM/DashBoard/news/news.json', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

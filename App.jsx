@@ -23,7 +23,7 @@ import StackHome from './screens/StackHome'
 import CallCameraScreen from './screens/CallCameraScreen'
 import CameraScreen from './screens/CameraScreen'
 import TestUploadPhoto from './screens/testUploadPhoto'
-import NewsScreen from './screens/NewsScreen'
+import News from './screens/NewsScreen'
 
 
 const TestStack = createStackNavigator({
@@ -44,7 +44,7 @@ const TestCameraStack = createStackNavigator({
   }
 })
 
-const SendRequestStack = createStackNavigator({
+const SelfSurveillance = createStackNavigator({
   Home: SendRequest,
   CameraScreen: CameraScreen
 },{
@@ -56,16 +56,9 @@ const SendRequestStack = createStackNavigator({
 
 
 const DrawerNavigator = createDrawerNavigator({
-  NewsScreen,
-  SendRequestStack,
-  
-  TestCameraStack,
-  TestStack,
+  News,
+  SelfSurveillance,
   Setting,
-  TestUploadPhoto,
-  ProfileScreen,
-  MessageScreen,
-  ActivityScreen,
 })
 
 export default createAppContainer(DrawerNavigator);

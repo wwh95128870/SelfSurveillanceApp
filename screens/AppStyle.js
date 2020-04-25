@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
         
     },
     appHeader:{
-        fontSize:23,
+        fontSize:20,
         color: "#161924",
         textAlign: 'center',
         flex:1,
@@ -74,5 +74,12 @@ export const styles = StyleSheet.create({
         flex:1,
         width:"90%",
         maxWidth: 600,
+    },
+    title:{
+        flex:1,
+        fontSize:40,
+        margin:20,
+        paddingTop:20,
+
     }
 })

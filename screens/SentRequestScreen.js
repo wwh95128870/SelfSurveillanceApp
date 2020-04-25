@@ -72,11 +72,13 @@ export default class SentRequestScreen extends React.Component {
                         onPress={this.props.navigation.openDrawer}
                     >
                         <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon} /></Text>
-                        <Text style={styles.appHeader}>Request</Text>
+                        
                         <Text style={styles.appHeader}></Text>
                     </TouchableOpacity>
                     <View style={styles.screen}>
+                        <Text style={{fontSize:20}}>Self Surveillance</Text>
                         <View style={styles.inputGroup}>
+                            
                             <View style={styles.inputView}>
                                 <Input
                                     label="Your Message"
@@ -164,30 +166,29 @@ export default class SentRequestScreen extends React.Component {
 
     sendRequest() {
         console.log(JSON.stringify(this.state));
-        // fetch('https://awari.algebragame.app/IBM/php/receivePhoneMessage.php', {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/x-www-form-urlencoded',
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        //     body: JSON.stringify(this.state),
-        // })
-        // .then(response => response.json())
-        // .then(responseJson => {
-        //     this.setState(
-        //         {
+        fetch('https://awari.algebragame.app/IBM/php/receivePhoneMessage.php', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: "json="+JSON.stringify(this.state),
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+            this.setState(
+                {
 
-        //         },
-        //         function () {
-        //             F
-        //             console.log(responseJson);
-        //             alert("Success");
-        //         }
-        //     );
-        // })
-        // .catch(error => {
-        //     console.error(error);
-        // });
+                },
+                function () {
+                    console.log(responseJson);
+                    alert("Success");
+                }
+            );
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 
     printState() {
@@ -238,7 +239,7 @@ export default class SentRequestScreen extends React.Component {
             if (!pickerResult.cancelled) {
                 this.setState({ image: pickerResult.uri });
             }
-
+            console.log(pickerResult.uri);
             this.uploadImageAsync(pickerResult.uri);
         }
     };
@@ -259,7 +260,7 @@ export default class SentRequestScreen extends React.Component {
 
         var data = new FormData();
         data.append('fileToUpload', {
-            uri: pictureuri,
+            uri: Platform.OS === "android" ? pictureuri : pictureuri.replace("file://", "") ,
             name: photoName,
             type: 'image/jpg'
         })

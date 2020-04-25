@@ -12,7 +12,7 @@ export const ActivityScreen = ({navigation}) => <Screen navigation={navigation} 
 
 export const Setting = ({navigation}) => <SettingScreen navigation={navigation} name="Setting"/>
 
-export const SendRequest = ({navigation}) => <SendRequestScreen navigation={navigation} name="SendRequest"/>
+export const SendRequest = ({navigation}) => <SendRequestScreen navigation={navigation} name="Self Surveillance"/>
 
 
 
