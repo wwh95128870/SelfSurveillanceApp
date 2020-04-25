@@ -24,6 +24,7 @@ import CallCameraScreen from './screens/CallCameraScreen'
 import CameraScreen from './screens/CameraScreen'
 import TestUploadPhoto from './screens/testUploadPhoto'
 import News from './screens/NewsScreen'
+import InfectedPerson from './screens/WifiScreen'
 
 
 const TestStack = createStackNavigator({
@@ -57,8 +58,9 @@ const SelfSurveillance = createStackNavigator({
 
 const DrawerNavigator = createDrawerNavigator({
   News,
-  SelfSurveillance,
   Setting,
+  SelfSurveillance,
+  InfectedPerson,
 })
 
 export default createAppContainer(DrawerNavigator);
