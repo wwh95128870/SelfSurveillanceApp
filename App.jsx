@@ -23,6 +23,7 @@ import StackHome from './screens/StackHome'
 import CallCameraScreen from './screens/CallCameraScreen'
 import CameraScreen from './screens/CameraScreen'
 import TestUploadPhoto from './screens/testUploadPhoto'
+import NewsScreen from './screens/NewsScreen'
 
 
 const TestStack = createStackNavigator({
@@ -55,11 +56,13 @@ const SendRequestStack = createStackNavigator({
 
 
 const DrawerNavigator = createDrawerNavigator({
-  TestUploadPhoto,
+  NewsScreen,
   SendRequestStack,
+  
   TestCameraStack,
   TestStack,
   Setting,
+  TestUploadPhoto,
   ProfileScreen,
   MessageScreen,
   ActivityScreen,

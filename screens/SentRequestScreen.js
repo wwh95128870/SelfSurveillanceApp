@@ -1,30 +1,30 @@
 import React from 'react';
-import {AsyncStorage,View,Text,StyleSheet,SafeAreaView, TouchableOpacity} from 'react-native'
-import {FontAwesome5} from '@expo/vector-icons'
-import {styles} from './AppStyle'
-import {VALUES} from "../Value"
+import { AsyncStorage, View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { styles } from './AppStyle'
+import { VALUES } from "../Value"
 import { Input } from 'react-native-elements';
-import {  Button,Snackbar,Checkbox  } from 'react-native-paper';
+import { Button, Snackbar, Checkbox } from 'react-native-paper';
 
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
-export default class SentRequestScreen extends React.Component{
+export default class SentRequestScreen extends React.Component {
 
     state = {
-        message:"",
-        location:{},
-        photo:null,
-        photoUri:null,
-        symptoms_Cough:false,
-        symptoms_CifficultyBreathing:false,
+        message: "",
+        location: {},
+        photo: null,
+        photoUri: null,
+        symptoms_Cough: false,
+        symptoms_CifficultyBreathing: false,
         symptoms_MuscleWeakness: false,
-        symptoms_Fever:false,
-        user_Name:null,
-        user_Phone:null,
-        user_Email:null,
-        user_Address:null,
+        symptoms_Fever: false,
+        user_Name: null,
+        user_Phone: null,
+        user_Email: null,
+        user_Address: null,
     };
 
     constructor(props) {
@@ -32,45 +32,45 @@ export default class SentRequestScreen extends React.Component{
         this.init();
     }
 
-    init(){
-        AsyncStorage.getItem(VALUES.USER.EMAIL,(err,result) =>{this.setState({user_Email:result})});
-        AsyncStorage.getItem(VALUES.USER.NAME,(err,result) =>{this.setState({user_Name:result})});
-        AsyncStorage.getItem(VALUES.USER.ADDRESS,(err,result) =>{this.setState({user_Address:result})});
-        AsyncStorage.getItem(VALUES.USER.PHONE,(err,result) =>{this.setState({user_Phone:result})});
+    init() {
+        AsyncStorage.getItem(VALUES.USER.EMAIL, (err, result) => { this.setState({ user_Email: result }) });
+        AsyncStorage.getItem(VALUES.USER.NAME, (err, result) => { this.setState({ user_Name: result }) });
+        AsyncStorage.getItem(VALUES.USER.ADDRESS, (err, result) => { this.setState({ user_Address: result }) });
+        AsyncStorage.getItem(VALUES.USER.PHONE, (err, result) => { this.setState({ user_Phone: result }) });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this._getLocation();
     }
 
-    _getLocation = async()=>{
-        const {status} = await Permissions.askAsync(Permissions.LOCATION);
+    _getLocation = async () => {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-        if(status !== "granted"){
+        if (status !== "granted") {
             console.log("Permission not granted");
-            this.setState({errorMessage:"Permission not granted"})
+            this.setState({ errorMessage: "Permission not granted" })
             alert(this.setState.errorMessage);
         }
 
         const userLocation = await Location.getCurrentPositionAsync();
         this.setState({
-            location : userLocation
+            location: userLocation
         })
         console.log("GPS updated");
     }
 
 
-    render(){
+    render() {
         let { image } = this.state;
 
-        return(
+        return (
             <View style={styles.container}>
-                <SafeAreaView style={{flex:1}}>
-                    <TouchableOpacity 
+                <SafeAreaView style={{ flex: 1 }}>
+                    <TouchableOpacity
                         style={styles.menuBar}
                         onPress={this.props.navigation.openDrawer}
                     >
-                        <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon}/></Text>
+                        <Text style={styles.appMoreIcon}>     <FontAwesome5 name="bars" style={styles.appMoreIcon} /></Text>
                         <Text style={styles.appHeader}>Request</Text>
                         <Text style={styles.appHeader}></Text>
                     </TouchableOpacity>
@@ -78,19 +78,19 @@ export default class SentRequestScreen extends React.Component{
                         <View style={styles.inputGroup}>
                             <View style={styles.inputView}>
                                 <Input
-                                label="Your Message"
-                                labelStyle = {styles.inputTitle}
-                                placeholder='Your message here'
-                                onChangeText={text => this.setState({message:text})}
-                                value={this.state.message}
+                                    label="Your Message"
+                                    labelStyle={styles.inputTitle}
+                                    placeholder='Your message here'
+                                    onChangeText={text => this.setState({ message: text })}
+                                    value={this.state.message}
                                 />
                             </View>
                             <View style={styles.inputView}>
                                 <Input
-                                    label = "GPS Location"
-                                    labelStyle = {styles.inputTitle}
+                                    label="GPS Location"
+                                    labelStyle={styles.inputTitle}
                                     selectTextOnFocus={false}
-                                    value = {this.displayGPSLocation()}
+                                    value={this.displayGPSLocation()}
                                 />
                             </View>
                             <View>
@@ -105,7 +105,7 @@ export default class SentRequestScreen extends React.Component{
                             <View style={styles.inputView}>
                                 <Button
                                     mode="outlined"
-                                    onPress={() => this.onClickCameraButton()}
+                                    onPress={() => this._takePhoto()}
                                 >
                                     Upload Photo
                                 </Button>
@@ -113,45 +113,45 @@ export default class SentRequestScreen extends React.Component{
 
                             {/* symptoms form */}
 
-                            <Text style={{fontSize:20,marginTop:15,marginLeft:10,fontWeight:"bold",alignSelf:"flex-start"}}>Symptoms</Text>
+                            <Text style={{ fontSize: 20, marginTop: 15, marginLeft: 10, fontWeight: "bold", alignSelf: "flex-start" }}>Symptoms</Text>
 
                             <View style={styles.inputView}>
                                 <View style={styles.rowSpaceBetween}>
-                                <Text style={styles.text}>Cough</Text>
-                                <Checkbox
-                                    status={this.state.symptoms_Cough ? 'checked' : 'unchecked'}
-                                    onPress={() => { this.setState({ symptoms_Cough: !this.state.symptoms_Cough }); }}
-                                />
+                                    <Text style={styles.text}>Cough</Text>
+                                    <Checkbox
+                                        status={this.state.symptoms_Cough ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ symptoms_Cough: !this.state.symptoms_Cough }); }}
+                                    />
                                 </View>
 
                                 <View style={styles.rowSpaceBetween}>
-                                <Text style={styles.text}>Difficulty breathing</Text>
-                                <Checkbox
-                                    status={this.state.symptoms_CifficultyBreathing ? 'checked' : 'unchecked'}
-                                    onPress={() => { this.setState({ symptoms_CifficultyBreathing: !this.state.symptoms_CifficultyBreathing }); }}
-                                />
-                                </View>
- 
-                                <View style={styles.rowSpaceBetween}>
-                                <Text style={styles.text}>Muscle weakness</Text>
-                                <Checkbox
-                                    status={this.state.symptoms_MuscleWeakness ? 'checked' : 'unchecked'}
-                                    onPress={() => { this.setState({ symptoms_MuscleWeakness: !this.state.symptoms_MuscleWeakness }); }}
-                                />
+                                    <Text style={styles.text}>Difficulty breathing</Text>
+                                    <Checkbox
+                                        status={this.state.symptoms_CifficultyBreathing ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ symptoms_CifficultyBreathing: !this.state.symptoms_CifficultyBreathing }); }}
+                                    />
                                 </View>
 
                                 <View style={styles.rowSpaceBetween}>
-                                <Text style={styles.text}>Fever</Text>
-                                <Checkbox
-                                    status={this.state.symptoms_Fever ? 'checked' : 'unchecked'}
-                                    onPress={() => { this.setState({ symptoms_Fever: !this.state.symptoms_Fever }); }}
-                                />
+                                    <Text style={styles.text}>Muscle weakness</Text>
+                                    <Checkbox
+                                        status={this.state.symptoms_MuscleWeakness ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ symptoms_MuscleWeakness: !this.state.symptoms_MuscleWeakness }); }}
+                                    />
+                                </View>
+
+                                <View style={styles.rowSpaceBetween}>
+                                    <Text style={styles.text}>Fever</Text>
+                                    <Checkbox
+                                        status={this.state.symptoms_Fever ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ symptoms_Fever: !this.state.symptoms_Fever }); }}
+                                    />
                                 </View>
                             </View>
 
 
 
-                            <Button onPress={()=>{this.sendRequest()}}>Send</Button>
+                            <Button onPress={() => { this.sendRequest() }}>Send</Button>
 
                             {/* <Button onPress={()=>{this.printState()}}>show state</Button> */}
                         </View>
@@ -161,7 +161,7 @@ export default class SentRequestScreen extends React.Component{
         )
     }
 
-    sendRequest(){
+    sendRequest() {
         console.log(JSON.stringify(this.state));
         fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
             method: 'POST',
@@ -169,26 +169,26 @@ export default class SentRequestScreen extends React.Component{
                 Accept: 'application/x-www-form-urlencoded',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify(this.state) ,
+            body: JSON.stringify(this.state),
         })
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState(
-            {
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState(
+                    {
 
-            },
-            function() {
-                console.log(responseJson);
-                alert("Success");
-            }
-          );
-        })
-        .catch(error => {
-          console.error(error);
-        });
+                    },
+                    function () {
+                        console.log(responseJson);
+                        alert("Success");
+                    }
+                );
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
-    printState(){
+    printState() {
         console.log(JSON.stringify(this.state));
         alert(JSON.stringify(this.state));
     }
@@ -198,29 +198,89 @@ export default class SentRequestScreen extends React.Component{
         console.log(JSON.stringify(data));
     };
 
-    displayGPSLocation(){
+    displayGPSLocation() {
 
         var text = JSON.stringify(this.state.location.coords);
-        try{
+        try {
             var coordsObj = JSON.parse(text);
             text = coordsObj.latitude + ":" + coordsObj.longitude;
-        }catch{
+        } catch{
 
         }
         return text
     }
 
-    onClickCameraButton(){
-        this.props.navigation.navigate("CameraScreen",{
-            payload:"{'key':'value'}",
-            callBack : this.onCallBack
-        });
-    }
-
-    submitOnClick(){
+    submitOnClick() {
         this.setState(state => ({ visible: !state.visible }));
         alert();
     }
+
+    _takePhoto = async () => {
+        const {
+            status: cameraPerm
+        } = await Permissions.askAsync(Permissions.CAMERA);
+
+        const {
+            status: cameraRollPerm
+        } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        // only if user allows permission to camera AND camera roll
+        if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+            let pickerResult = await ImagePicker.launchCameraAsync({
+                // allowsEditing: true,
+                // aspect: [4, 3],
+                quality: 0.3,
+                base64: true,
+            });
+
+            if (!pickerResult.cancelled) {
+                this.setState({ image: pickerResult.uri });
+            }
+
+            this.uploadImageAsync(pickerResult.uri);
+        }
+    };
+
+
+    uploadImageAsync(pictureuri) {
+        //https://awari.algebragame.app/IBM/uploadImage/upload.php
+        //http://192.168.0.100:8080/api/upload.php
+        //fileToUpload
+        let apiUrl = 'https://awari.algebragame.app/IBM/uploadImage/upload.php';
+
+        console.log(pictureuri);
+
+        var timestemp = new Date().getTime();
+        var data = new FormData();
+        data.append('fileToUpload', {
+            uri: pictureuri,
+            name: timestemp + '.jpg',
+            type: 'image/jpg'
+        })
+
+        fetch(apiUrl, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            },
+            method: 'POST',
+            body: data
+        }).then(
+            response => {
+                console.log('succ ')
+                console.log(JSON.stringify(response))
+            }
+        ).catch(err => {
+            console.log('err ')
+            console.log(JSON.stringify(err))
+        })
+
+
+
+
+    }
+
+
 
 }
 
