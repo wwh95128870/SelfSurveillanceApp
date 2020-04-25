@@ -17,6 +17,7 @@ export default class SentRequestScreen extends React.Component {
         location: {},
         photo: null,
         photoUri: null,
+        photoName: null,
         symptoms_Cough: false,
         symptoms_CifficultyBreathing: false,
         symptoms_MuscleWeakness: false,
@@ -151,7 +152,7 @@ export default class SentRequestScreen extends React.Component {
 
 
 
-                            <Button onPress={() => { this.sendRequest() }}>Send</Button>
+                            <Button mode="contained" onPress={() => { this.sendRequest() }}>Send</Button>
 
                             {/* <Button onPress={()=>{this.printState()}}>show state</Button> */}
                         </View>
@@ -163,29 +164,30 @@ export default class SentRequestScreen extends React.Component {
 
     sendRequest() {
         console.log(JSON.stringify(this.state));
-        fetch('https://awari.algebragame.app/IBM/php/testpost.php', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/x-www-form-urlencoded',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(this.state),
-        })
-            .then(response => response.json())
-            .then(responseJson => {
-                this.setState(
-                    {
+        // fetch('https://awari.algebragame.app/IBM/php/receivePhoneMessage.php', {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/x-www-form-urlencoded',
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //     },
+        //     body: JSON.stringify(this.state),
+        // })
+        // .then(response => response.json())
+        // .then(responseJson => {
+        //     this.setState(
+        //         {
 
-                    },
-                    function () {
-                        console.log(responseJson);
-                        alert("Success");
-                    }
-                );
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        //         },
+        //         function () {
+        //             F
+        //             console.log(responseJson);
+        //             alert("Success");
+        //         }
+        //     );
+        // })
+        // .catch(error => {
+        //     console.error(error);
+        // });
     }
 
     printState() {
@@ -249,12 +251,16 @@ export default class SentRequestScreen extends React.Component {
         let apiUrl = 'https://awari.algebragame.app/IBM/uploadImage/upload.php';
 
         console.log(pictureuri);
-
         var timestemp = new Date().getTime();
+
+        let photoName = timestemp + '.jpg';
+        this.setState({ photoName: photoName })
+
+
         var data = new FormData();
         data.append('fileToUpload', {
             uri: pictureuri,
-            name: timestemp + '.jpg',
+            name: photoName,
             type: 'image/jpg'
         })
 
