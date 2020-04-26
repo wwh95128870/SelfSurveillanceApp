@@ -1,17 +1,18 @@
 {
   "expo": {
-    "name": "MyApp",
-    "slug": "MyApp",
+    "name": "SelfSurveillance",
+    "slug": "SelfSurveillance",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "description": "This app provide the Self Surveillance function to the user. To let user get far away form the coronavirus 2019.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/loading.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.belleandstone.foundz"
+    },
+    "android": {
+      "package": "com.nautilus.SelfSurveillance"
     }
   }
 }
