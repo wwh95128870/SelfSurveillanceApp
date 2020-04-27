@@ -7,8 +7,8 @@
       "android",
       "web"
     ],
-    "description": "This app provide the Self Surveillance function to the user. To let user get far away form the coronavirus 2019.",
-    "version": "1.0.0",
+    "description": "This app provide the Self Surveillance function to the user. \nTo let user get far away form the coronavirus 2019.\nSelf-Surveillance Application provide different useful component. Such as news, help call, and Infected Person surrounding check. And this application is based on react native, it allows iOS and Android users to install it.\nNews component can retrieve the news from the backend server.\nSmart Help call allows the user to input their symptoms, their photo, and so on. The doctor can base on this report to take care of the user.\nInfected Persons surrounding check function can show the alert message to the user when they go into the area that has infected persons. The alert message can make the user keep the safe distance.",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
